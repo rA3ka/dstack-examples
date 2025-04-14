@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 PROJECT_NAME=launched
 WORKDIR=/app-data
@@ -52,6 +52,10 @@ apply-update() {
     echo "Update applied"
     return 0
 }
+
+if ! which docker > /dev/null; then
+    apk add --no-cache docker docker-cli-compose curl jq bash coreutils
+fi
 
 rm -f latest
 while true; do
