@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  softether:
+    image: softethervpn/vpnserver:latest
+    cap_add:
+      - NET_ADMIN
+    restart: always
+    ports:
+      - 443:443         #Management and HTTPS tunneling
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+      #- "./softether_data:/var/lib/softether"
+      #- "./softether_log:/var/log/softether"
+    command: |-
+      sh -c '
+      echo "Starting SoftEther VPN Server..."
+      vpnserver start
+      echo "SoftEther VPN Server started"
+      vpncmd localhost /SERVER /CSV /PASSWORD: /Hub:DEFAULT \
+         /CMD SecureNatEnable
+      vpncmd localhost /SERVER /CSV /PASSWORD: /Hub:DEFAULT \
+         /CMD UserCreate amiller /GROUP: /REALNAME: /NOTE:
+      vpncmd localhost /SERVER /CSV /PASSWORD: /Hub:DEFAULT \
+         /CMD UserPasswordSet amiller /PASSWORD:xxxpassw0rd
+      cat /var/lib/softether/vpn_server.config | grep ServerCert
+      tail -f /var/log/softether/server_log/*.log
+      '
