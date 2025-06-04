@@ -11,7 +11,7 @@ These show useful patterns you may want to copy:
 - [./ssh-over-tproxy](./ssh-over-tproxy) shows how to tunnel arbitrary sockets over https so it can work with tproxy
 - [./webshell](./webshell) This is an alternative way to allow logging into a Dstack container (for debug only!)
 ## Showcases of porting existing tools
-- [./anon-hidden-service](./anon-hidden-service) connects to the anon network and serves a website as a hidden service
+- [./anyone-anon-service](./anyone-anon-service) connects to the Anyone Network and serves a website as a hidden service
 ## Illustrating Dstack Features
 - [./prelaunch-script](./prelaunch-script)
 - [./private-docker-image-deployment](./private-docker-image-deployment)
