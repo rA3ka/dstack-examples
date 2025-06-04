@@ -1,27 +1,31 @@
 services:
-  tor:
+  anon:
     build:
       context: .
       dockerfile_inline: |
-        FROM debian:bullseye-slim
-        RUN apt-get update && apt-get install -y tor && apt-get clean && rm -rf /var/lib/apt/lists/*
-        RUN mkdir -p /var/lib/tor/hidden_service && chown -R debian-tor:debian-tor /var/lib/tor/hidden_service/ && \
-            chmod 700 /var/lib/tor/hidden_service/ && echo "HiddenServiceDir /var/lib/tor/hidden_service/" > /etc/tor/torrc && \
-            echo "HiddenServicePort 80 nginx:80" >> /etc/tor/torrc
-        USER debian-tor
-        CMD tor -f /etc/tor/torrc
+        FROM debian:bookworm-slim
+        RUN apt update && apt-get install -y ca-certificates wget
+        RUN echo "anon anon/terms boolean true" | debconf-set-selections
+        RUN . /etc/os-release && \
+            wget -qO- https://deb.en.anyone.tech/anon.asc | tee /etc/apt/trusted.gpg.d/anon.asc && \
+            echo "deb [signed-by=/etc/apt/trusted.gpg.d/anon.asc] https://deb.en.anyone.tech anon-live-bookworm main" | tee /etc/apt/sources.list.d/anon.list
+        RUN apt-get update && apt-get install -y anon && apt-get clean && rm -rf /var/lib/apt/lists/*
+        RUN mkdir -p /var/lib/anon/hidden_service && chown -R debian-anon:debian-anon /var/lib/anon/hidden_service/ && chmod 700 /var/lib/anon/hidden_service/
+        RUN echo "HiddenServiceDir /var/lib/anon/hidden_service\nHiddenServicePort 80 nginx:80\nAgreeToTerms 1" > /etc/anon/anonrc
+        USER debian-anon
+        CMD anon -f /etc/anon/anonrc --agreetoterms 1
     volumes:
-      - tor_data:/var/lib/tor/hidden_service
+      - anon_data:/var/lib/anon/hidden_service
     restart: unless-stopped
     networks:
       - net
 
   nginx:
-    depends_on: [tor]
+    depends_on: [anon]
     image: nginx:alpine
     volumes:
       - /var/run/tappd.sock:/var/run/tappd.sock
-      - tor_data:/tor_data:ro
+      - anon_data:/anon_data:ro
     command: sh -c "apk add --no-cache curl && /start.sh"
     configs:
       - source: nginx_script
@@ -35,15 +39,15 @@ networks:
   net:
 
 volumes:
-  tor_data:
+  anon_data:
 
 configs:
   nginx_script:
     content: |
       #!/bin/sh
-      echo '<html><body><h1>Dstack TEE Tor Onion Service</h1>' > /usr/share/nginx/html/index.html
-      while [ ! -f /tor_data/hostname ]; do sleep 1; done
-      addr=$$(cat /tor_data/hostname)
+      echo '<html><body><h1>Dstack TEE Anyone Anon Service</h1>' > /usr/share/nginx/html/index.html
+      while [ ! -f /anon_data/hostname ]; do sleep 1; done
+      addr=$$(cat /anon_data/hostname)
       echo "<p>$$addr</p>" >> /usr/share/nginx/html/index.html
       hash=$$(echo -n "$$addr" | sha256sum)
       payload="{\"report_data\":\"$$(echo -n $$hash | od -A n -t x1 | tr -d ' \n')\"}"
