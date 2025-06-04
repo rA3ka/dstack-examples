@@ -1,4 +1,4 @@
-# TEE Anon Hidden Service
+# TEE Anyone hidden Service
 
 Can you serve an app from an anonymous Dstack node that doesn't reveal its IP address?
 
@@ -6,19 +6,25 @@ This docker compose example sets up a Anon hidden service and serves an nginx we
 
 <img src="https://github.com/user-attachments/assets/109efef7-a2b3-4ff9-8764-1233af841cf9" style="width:70%; height:auto;">
 
+## URLs
+
+ * Website: https://anyone.io
+ * Documentation:     https://docs.anyone.io
+ * Social:            https://x.com/AnyoneFDN
+
 ## Overview
 
 The setup consists of two main components:
 - A Anon service that creates and manages the hidden service
 - An Nginx server that serves the TEE attestation data
 
-When accessed through Anon Browser, the service displays:
-- The .onion address it's serving on
+When accessed through Anyone network, the service displays:
+- The .anon address it's serving on
 - TDX remote attestation from /var/run/tappd.sock
 
-The remote attestation uses the hash of the .onion address as the quote report data.
+The remote attestation uses the hash of the .anon address as the quote report data.
 
-The service automatically generates a new .onion address on first launch and maintains it across restarts through the persistent `Anon_data` volume.
+The service automatically generates a new .anon address on first launch and maintains it across restarts through the persistent `Anon_data` volume.
 
 ## To run locally
 
@@ -26,8 +32,7 @@ The service automatically generates a new .onion address on first launch and mai
    ```bash
    docker compose up -d
    ```
-2. The onion address will be displayed in the Nginx container logs:
+2. The anon address will be displayed in the Nginx container logs:
    ```bash
    docker compose logs nginx
    ```
-
