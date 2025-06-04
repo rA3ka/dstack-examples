@@ -2,10 +2,9 @@
 
 Can you serve an app from an anonymous Dstack node that doesn't reveal its IP address?
 
-This docker compose example sets up a Anon hidden service and serves an nginx website from that. Unlike other Dstack examples using tproxy, this one avoids exposing ports on the host at all. It uses the Anon network itself as a reverse proxy.
+This docker compose example sets up a Anon hidden service and serves an nginx website from that. Unlike other Dstack examples using tproxy, this one avoids exposing ports on the host at all. It uses the [Anyone network](https://www.anyone.io/) itself as a reverse proxy.
 
-![image](https://github.com/user-attachments/assets/ff1b7847-4d8f-45eb-8cb3-790bf73765ca)
-
+<img src="https://github.com/user-attachments/assets/109efef7-a2b3-4ff9-8764-1233af841cf9" style="width:70%; height:auto;">
 
 ## Overview
 
