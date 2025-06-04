@@ -35,4 +35,4 @@ The service automatically generates a new .anon address on first launch and main
    docker compose logs nginx
    ```
 
-[![](https://cloud.phala.network/deploy-button.svg)](https://cloud.phala.network/templates/{anyone-anon-service})
+[![](https://cloud.phala.network/deploy-button.svg)](https://cloud.phala.network/templates/anyone-anon-service)
