@@ -22,7 +22,7 @@ When accessed through Anyone network, the service displays:
 
 The remote attestation uses the hash of the .anon address as the quote report data.
 
-The service automatically generates a new .anon address on first launch and maintains it across restarts through the persistent `Anon_data` volume.
+The service automatically generates a new .anon address on first launch and maintains it across restarts through the persistent `anon_data` volume.
 
 ## To run locally
 
