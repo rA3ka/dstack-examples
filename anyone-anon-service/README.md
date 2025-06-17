@@ -4,12 +4,6 @@ This docker compose example sets up a Anon hidden service and serves an nginx we
 
 <img src="https://github.com/user-attachments/assets/109efef7-a2b3-4ff9-8764-1233af841cf9" style="width:70%; height:auto;">
 
-## URLs
-
- * Website:           https://anyone.io
- * Documentation:     https://docs.anyone.io
- * Social:            https://x.com/AnyoneFDN
-
 ## Overview
 
 The setup consists of two main components:
@@ -34,6 +28,12 @@ The service automatically generates a new .anon address on first launch and main
    ```bash
    docker compose logs nginx
    ```
+
+## URLs
+
+ * Website:           https://anyone.io
+ * Documentation:     https://docs.anyone.io
+ * Social:            https://x.com/AnyoneFDN
 
 <br>
 
